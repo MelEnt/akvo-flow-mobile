@@ -220,8 +220,9 @@ public class AppUpdateActivity extends Activity {
 
         @Override
         protected void onPostExecute(String filename) {
-            if (activityWeakReference.get() != null) {
-                activityWeakReference.get().onTaskExecutionEnded(filename);
+            AppUpdateActivity appUpdateActivity = activityWeakReference.get();
+            if (appUpdateActivity != null) {
+                appUpdateActivity.onTaskExecutionEnded(filename);
             }
         }
 
@@ -260,7 +261,8 @@ public class AppUpdateActivity extends Activity {
          */
         private boolean downloadApk(String location, String localPath) {
             Log.i(TAG, "App Update: Downloading new version " + mVersion + " from " + mUrl);
-            if (activityWeakReference.get() != null && !StatusUtil.hasDataConnection(activityWeakReference.get())) {
+            AppUpdateActivity appUpdateActivity = activityWeakReference.get();
+            if (appUpdateActivity != null && !StatusUtil.hasDataConnection(appUpdateActivity)) {
                 Log.e(TAG, "No internet connection. Can't perform the requested operation");
                 return false;
             }
